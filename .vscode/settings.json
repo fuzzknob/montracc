@@ -2,5 +2,8 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "workbench.colorTheme": "BeardedTheme Arc"
+    "workbench.colorTheme": "BeardedTheme Arc",
+    "cSpell.words": [
+        "heyui"
+    ]
 }
