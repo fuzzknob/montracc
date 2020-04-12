@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import HeyUI from 'heyui'
 import 'heyui/themes/index.less'
+import '@/styles/main.sass'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
