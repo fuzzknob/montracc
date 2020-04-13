@@ -17,9 +17,14 @@
       >
         {{ title }}
       </span>
-      <span class="text-primary text-xl">
+      <span
+        v-if="content"
+        class="text-primary"
+        :class="contentClass"
+      >
         {{ content }}
       </span>
+      <slot v-else />
     </div>
   </div>
 </template>
@@ -40,6 +45,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    contentClass: {
+      type: String,
+      default: 'text-xl',
+    },
   },
 }
 </script>
@@ -57,6 +66,6 @@ export default {
     width: 25px
     height: 25px
     position: absolute
-    top: 5px
+    top: 7px
     right: 7px
 </style>
