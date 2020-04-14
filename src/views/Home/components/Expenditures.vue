@@ -1,11 +1,15 @@
 <template>
   <div>
+    <AddSpentModal
+      :visible="isAddSpentModalVisible"
+      @click="isAddSpentModalVisible = false"
+    />
     <h3 class="text-base text-primary my-1">
       Expenditures
     </h3>
     <Row class="mb-2">
-      <Cell
-        width="12"
+      <Column
+        span="12"
         class="pr-1"
       >
         <Expenditure
@@ -15,9 +19,9 @@
             limit: 1000,
           }"
         />
-      </Cell>
-      <Cell
-        width="12"
+      </Column>
+      <Column
+        span="12"
         class="pl-1"
       >
         <Expenditure
@@ -27,11 +31,11 @@
             limit: 1000,
           }"
         />
-      </Cell>
+      </Column>
     </Row>
     <Row>
-      <Cell
-        width="12"
+      <Column
+        span="12"
         class="pr-1"
       >
         <Expenditure
@@ -41,9 +45,9 @@
             limit: 20000,
           }"
         />
-      </Cell>
-      <Cell
-        width="12"
+      </Column>
+      <Column
+        span="12"
         class="pl-1"
       >
         <Expenditure
@@ -53,18 +57,25 @@
             limit: 20000,
           }"
         />
-      </Cell>
+      </Column>
     </Row>
   </div>
 </template>
 
 <script>
 import Expenditure from './Expenditure.vue'
+import AddSpentModal from './AddSpentModal.vue'
 
 export default {
   name: 'Expenditures',
   components: {
     Expenditure,
+    AddSpentModal,
+  },
+  data() {
+    return {
+      isAddSpentModalVisible: false,
+    }
   },
 }
 </script>

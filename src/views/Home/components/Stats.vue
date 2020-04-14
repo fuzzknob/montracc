@@ -4,8 +4,8 @@
       Stats
     </h3>
     <Row class="money-storage">
-      <Cell
-        width="14"
+      <Column
+        span="14"
         class="pr-1"
       >
         <Row
@@ -24,9 +24,9 @@
             title="Spent"
           />
         </Row>
-      </Cell>
-      <Cell
-        width="10"
+      </Column>
+      <Column
+        span="10"
         class="pl-1"
       >
         <Row class="mb-2">
@@ -47,7 +47,7 @@
             title="MBL"
           />
         </Row>
-      </Cell>
+      </Column>
     </Row>
   </div>
 </template>
