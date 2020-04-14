@@ -4,7 +4,7 @@
     class="text-primary"
     title="Add Spent"
     centered
-    @cancel="$emit('close')"
+    @close="$emit('close')"
   >
     <div slot="header">
       Add to Spent
