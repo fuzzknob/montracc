@@ -1,0 +1,52 @@
+<template>
+  <Modal
+    :visible="visible"
+    class="text-primary"
+    title="Add Spent"
+    centered
+    @cancel="$emit('close')"
+  >
+    <div slot="header">
+      Transfer Money
+    </div>
+    <Form>
+      <FormItem label="Amount">
+        <Input type="number" />
+      </FormItem>
+      <FormItem label="Storage">
+        <Select>
+          <Option value="external">
+            External
+          </Option>
+          <Option value="in-hand">
+            In Hand
+          </Option>
+        </Select>
+      </FormItem>
+    </Form>
+  </Modal>
+</template>
+
+<script>
+import Modal from '@/components/Modal.vue'
+import Input from '@/components/Input.vue'
+import { Form, Select } from 'ant-design-vue'
+
+export default {
+  name: 'TransferMoney',
+  components: {
+    Modal,
+    Form,
+    Input,
+    FormItem: Form.Item,
+    Select,
+    Option: Select.Option,
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+  },
+}
+</script>

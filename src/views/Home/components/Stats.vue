@@ -3,6 +3,10 @@
     <h3 class="text-base text-primary my-1">
       Stats
     </h3>
+    <TransferMoney
+      :visible="isTransferMoneyVisible"
+      @close="isTransferMoneyVisible = false"
+    />
     <Row class="money-storage">
       <Column
         span="14"
@@ -54,11 +58,18 @@
 
 <script>
 import Card from '@/components/Card.vue'
+import TransferMoney from './TransferMoney.vue'
 
 export default {
   name: 'Stats',
   components: {
     Card,
+    TransferMoney,
+  },
+  data() {
+    return {
+      isTransferMoneyVisible: false,
+    }
   },
 }
 </script>
