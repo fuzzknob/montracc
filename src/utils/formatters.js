@@ -4,5 +4,6 @@ const formatter = new Intl.NumberFormat('en-IN', {
 })
 
 export function formatCurrency(num) {
-  return formatter.format(num).split('.')[0].replace('NPR', 'Rs')
+  return formatter.format(num).split('.').filter((splitted) => splitted !== '00').join('.')
+    .replace('NPR', 'Rs')
 }
