@@ -6,7 +6,7 @@ db.version(1).stores({
   user: 'id,firstName,lastName,email,totalAmount,totalSpent',
   storage: '++id,name,amount',
   expenditures: '++id,name,limit,spent',
-  actions: '++id,action,target,payload',
+  actions: '++id,action,payload',
 })
 
 export default class Dexie {
@@ -21,6 +21,10 @@ export default class Dexie {
 
   add(data) {
     return this.table.add(data)
+  }
+
+  bulkAdd(items) {
+    return this.table.bulkAdd(items)
   }
 
   get(id) {
