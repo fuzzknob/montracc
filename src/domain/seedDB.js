@@ -8,7 +8,7 @@ const USER_DATA = {
   lastName: 'Rai',
   email: 'gagan_rai@outlook.com',
   totalAmount: 60000,
-  spent: 0,
+  totalSpent: 0,
 }
 
 const STORAGE_DATA = [

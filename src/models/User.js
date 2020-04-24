@@ -6,7 +6,7 @@ export default class User extends Model {
   }
 
   get() {
-    super.get(1)
+    return super.get(1)
   }
 
   put(data) {
