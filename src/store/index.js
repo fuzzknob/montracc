@@ -6,8 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    total: 0,
-    spent: 0,
+    totalAmount: 0,
+    totalSpent: 0,
     storages: [
       {
         id: 'asdasd',
@@ -29,7 +29,7 @@ export default new Vuex.Store({
       {
         id: 'repoas',
         name: 'Food',
-        limit: 0,
+        limit: 100,
         spent: 0,
       },
       {
@@ -41,22 +41,14 @@ export default new Vuex.Store({
       {
         id: 'travel',
         name: 'Travel',
-        limit: 0,
+        limit: 100,
         spent: 0,
       },
       {
         id: 'misc',
         name: 'Misc',
-        limit: 0,
+        limit: 100,
         spent: 0,
-      },
-    ],
-    transactions: [
-      {
-        id: '',
-        type: 'DEBIT',
-        amount: 0,
-        description: '',
       },
     ],
   },

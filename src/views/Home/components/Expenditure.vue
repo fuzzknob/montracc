@@ -1,16 +1,17 @@
 <template>
   <Card
     :title="expendature.name"
+    :min-height="81"
     icon
   >
-    <span class="text-primary flex flex-col text-xl">
+    <div class="text-primary flex flex-col text-xl">
       <span>
         {{ expendature.spent | formatCurrency }}
       </span>
       <span v-if="expendature.limit">
         / {{ expendature.limit | formatCurrency }}
       </span>
-    </span>
+    </div>
   </Card>
 </template>
 

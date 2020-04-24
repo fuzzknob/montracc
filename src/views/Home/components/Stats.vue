@@ -16,7 +16,7 @@
           class="mb-2 money-storage-half"
         >
           <Card
-            content="Rs 1,405"
+            :content="totalAmount | formatCurrency"
             title="Total"
           />
         </Row>
@@ -24,7 +24,7 @@
           class="mb-2 money-storage-half"
         >
           <Card
-            content="Rs 1,405"
+            :content="totalSpent | formatCurrency"
             title="Spent"
           />
         </Row>
@@ -33,22 +33,14 @@
         span="10"
         class="pl-1"
       >
-        <Row class="mb-2">
+        <Row
+          v-for="storage in storages"
+          :key="storage.id"
+          class="mb-2"
+        >
           <Card
-            content="Rs 1,405"
-            title="In Hand"
-          />
-        </Row>
-        <Row class="my-2">
-          <Card
-            content="Rs 16,924"
-            title="NMB"
-          />
-        </Row>
-        <Row class="mt-2">
-          <Card
-            content="Rs 45,500"
-            title="MBL"
+            :content="storage.amount | formatCurrency"
+            :title="storage.name"
           />
         </Row>
       </Column>
@@ -58,6 +50,7 @@
 
 <script>
 import Card from '@/components/Card.vue'
+import { mapState } from 'vuex'
 import TransferMoney from './TransferMoney.vue'
 
 export default {
@@ -70,6 +63,9 @@ export default {
     return {
       isTransferMoneyVisible: false,
     }
+  },
+  computed: {
+    ...mapState(['totalAmount', 'totalSpent', 'storages']),
   },
 }
 </script>

@@ -4,7 +4,7 @@ export const db = new DexieDb('montracc')
 
 db.version(1).stores({
   user: 'id,firstName,lastName,email,totalAmount,totalSpent',
-  storage: '++id,name,amount',
+  storages: '++id,name,amount',
   expenditures: '++id,name,limit,spent',
   actions: '++id,action,payload',
 })

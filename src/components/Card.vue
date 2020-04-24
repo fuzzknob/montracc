@@ -3,7 +3,10 @@
     class="card flex-center p-3"
     @click="$emit('card-click')"
   >
-    <div class="flex flex-col">
+    <div
+      class="flex flex-col justify-center"
+      :style="{minHeight: `${minHeight}px`}"
+    >
       <div
         v-if="icon"
         class="icon-tag flex justify-end"
@@ -48,6 +51,10 @@ export default {
     contentClass: {
       type: String,
       default: 'text-xl',
+    },
+    minHeight: {
+      type: Number,
+      default: 0,
     },
   },
 }
