@@ -1,7 +1,7 @@
 <template>
   <div
     class="card flex-center p-3"
-    @click="$emit('card-click')"
+    @click="$emit('click')"
   >
     <div
       class="flex flex-col justify-center"

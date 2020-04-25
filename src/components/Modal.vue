@@ -4,6 +4,9 @@
     :visible="visible"
     class="text-primary custom-modal"
     centered
+    :confirm-loading="loading"
+    :after-close="() => $emit('after-close')"
+    @ok="$emit('ok')"
     @cancel="$emit('close')"
   >
     <slot />
@@ -26,6 +29,10 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
 }

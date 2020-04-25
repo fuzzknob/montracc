@@ -3,6 +3,7 @@
     :title="expendature.name"
     :min-height="81"
     icon
+    @click="$emit('click')"
   >
     <div class="text-primary flex flex-col text-xl">
       <span>

@@ -6,6 +6,8 @@
     <input
       class="text-primary input-txt"
       :type="type"
+      :value="value"
+      @input="handleInput"
     >
   </label>
 </template>
@@ -21,6 +23,15 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    value: {
+      type: [String, Number],
+      default: null,
+    },
+  },
+  methods: {
+    handleInput({ target }) {
+      this.$emit('input', this.type === 'number' ? parseFloat(target.value) : target.value)
     },
   },
 }

@@ -13,16 +13,16 @@ const USER_DATA = {
 
 const STORAGE_DATA = [
   {
+    name: 'In Hand',
+    amount: 5000,
+  },
+  {
     name: 'MBL',
     amount: 45000,
   },
   {
     name: 'NMB',
     amount: 10000,
-  },
-  {
-    name: 'In Hand',
-    amount: 5000,
   },
 ]
 
@@ -52,7 +52,7 @@ const EXPENDITURES = [
 
 async function seedDB() {
   // Clearing Database
-  // await User.delete()
+  await User.delete()
   await Action.deleteAll()
   await Storage.deleteAll()
   await Expenditure.deleteAll()

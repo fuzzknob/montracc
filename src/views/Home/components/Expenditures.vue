@@ -1,8 +1,9 @@
 <template>
   <div>
-    <AddSpentModal
-      :visible="isAddSpentModalVisible"
-      @click="isAddSpentModalVisible = false"
+    <SpentModal
+      :visible="isSpendModalVisible"
+      :expenditure="targetExpenditure"
+      @close="isSpendModalVisible = false"
     />
     <h3 class="text-base text-primary my-1">
       Expenditures
@@ -23,6 +24,7 @@
             spent: expenditure.spent,
             limit: expenditure.limit,
           }"
+          @click="handleExpenditureClick(expenditure)"
         />
       </Column>
     </Row>
@@ -32,21 +34,28 @@
 <script>
 import { mapState } from 'vuex'
 import Expenditure from './Expenditure.vue'
-import AddSpentModal from './AddSpentModal.vue'
+import SpentModal from './SpendModal.vue'
 
 export default {
   name: 'Expenditures',
   components: {
     Expenditure,
-    AddSpentModal,
+    SpentModal,
   },
   data() {
     return {
-      isAddSpentModalVisible: false,
+      isSpendModalVisible: false,
+      targetExpenditure: {},
     }
   },
   computed: {
     ...mapState(['expenditures']),
+  },
+  methods: {
+    handleExpenditureClick(expenditure) {
+      this.isSpendModalVisible = true
+      this.targetExpenditure = expenditure
+    },
   },
 }
 </script>
