@@ -9,11 +9,11 @@ export default {
     const expenditure = new Expenditure()
 
     const userData = await user.get()
-    const storageData = await storage.getAll()
-    const expenditureData = await expenditure.getAll()
-    console.log({ userData, storageData, expenditureData })
+    const storages = await storage.getAll()
+    const expenditures = await expenditure.getAll()
     commit('setTotalAmount', userData.totalAmount)
     commit('setTotalSpent', userData.totalSpent)
-    commit('setExpenditures', expenditureData)
+    commit('setStorages', storages)
+    commit('setExpenditures', expenditures)
   },
 }
