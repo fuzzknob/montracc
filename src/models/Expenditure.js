@@ -1,7 +1,9 @@
 import Model from '@/services/Model'
 
-export default class Expenditure extends Model {
+class Expenditure extends Model {
   constructor() {
     super('expenditures')
   }
 }
+
+export default new Expenditure()

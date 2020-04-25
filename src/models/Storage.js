@@ -1,7 +1,8 @@
 import Model from '@/services/Model'
 
-export default class Storage extends Model {
+class Storage extends Model {
   constructor() {
     super('storages')
   }
 }
+export default new Storage()

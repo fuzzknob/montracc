@@ -1,6 +1,6 @@
 import Model from '@/services/Model'
 
-export default class User extends Model {
+class User extends Model {
   constructor() {
     super('user')
   }
@@ -24,3 +24,5 @@ export default class User extends Model {
     super.delete(1)
   }
 }
+
+export default new User()

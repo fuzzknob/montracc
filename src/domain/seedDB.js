@@ -51,21 +51,16 @@ const EXPENDITURES = [
 
 
 async function seedDB() {
-  const user = new User()
-  const action = new Action()
-  const storage = new Storage()
-  const expenditure = new Expenditure()
-
   // Clearing Database
-  // await user.delete()
-  await action.deleteAll()
-  await storage.deleteAll()
-  await expenditure.deleteAll()
+  // await User.delete()
+  await Action.deleteAll()
+  await Storage.deleteAll()
+  await Expenditure.deleteAll()
 
   // Seeding Database
-  await user.put(USER_DATA)
-  await storage.bulkAdd(STORAGE_DATA)
-  await expenditure.bulkAdd(EXPENDITURES)
+  await User.put(USER_DATA)
+  await Storage.bulkAdd(STORAGE_DATA)
+  await Expenditure.bulkAdd(EXPENDITURES)
 }
 
 seedDB()
