@@ -9,7 +9,7 @@ db.version(1).stores({
   actions: '++id,action,payload',
 })
 
-export default class Dexie {
+export default class Model {
   tableName
 
   table
