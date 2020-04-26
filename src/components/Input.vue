@@ -7,6 +7,7 @@
       class="text-primary input-txt"
       :type="type"
       :value="value"
+      :disabled="disabled"
       @input="handleInput"
     >
   </label>
@@ -26,6 +27,10 @@ export default {
     },
     value: {
       type: [String, Number],
+      default: null,
+    },
+    disabled: {
+      type: Boolean,
       default: null,
     },
   },
