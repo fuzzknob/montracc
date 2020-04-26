@@ -31,21 +31,33 @@ export async function spendMoney({ amount, storageId, expenditureId }) {
   const totalAmount = user.totalAmount - amount
   const totalSpent = user.totalSpent + amount
 
-  User.update({
+  return User.update({
     totalAmount,
     totalSpent,
   })
+}
 
-  return {
-    totalAmount,
-    totalSpent,
-    expenditure: {
-      ...expenditure,
-      spent: expenditure.spent + amount,
-    },
-    storage: {
-      ...storage,
-      amount: storage.amount - amount,
-    },
+export async function transferMoney({
+  amount, from, to, transferCharge,
+}) {
+  const realTransferredAmount = amount - transferCharge
+  if (from !== 'external') {
+    const fromStorage = await Storage.get(from)
+    if (fromStorage.amount < amount) {
+      throw new Error(`You don't have enough money in ${fromStorage.name} to transfer.`)
+    }
+    await Storage.update(from, {
+      amount: fromStorage.amount - amount,
+    })
+  } else {
+    const user = await User.get()
+    await User.update({
+      totalAmount: user.totalAmount + realTransferredAmount,
+      totalSpent: user.totalSpent + transferCharge,
+    })
   }
+  const toStorage = await Storage.get(to)
+  return Storage.update(to, {
+    amount: toStorage.amount + realTransferredAmount,
+  })
 }

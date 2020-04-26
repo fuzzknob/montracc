@@ -5,6 +5,7 @@
     </h3>
     <TransferMoney
       :visible="isTransferMoneyVisible"
+      :storage="targetStorage"
       @close="isTransferMoneyVisible = false"
     />
     <Row class="money-storage">
@@ -41,6 +42,7 @@
           <Card
             :content="storage.amount | formatCurrency"
             :title="storage.name"
+            @click="handleStorageClick(storage)"
           />
         </Row>
       </Column>
@@ -62,10 +64,17 @@ export default {
   data() {
     return {
       isTransferMoneyVisible: false,
+      targetStorage: null,
     }
   },
   computed: {
     ...mapState(['totalAmount', 'totalSpent', 'storages']),
+  },
+  methods: {
+    handleStorageClick(storage) {
+      this.isTransferMoneyVisible = true
+      this.targetStorage = storage
+    },
   },
 }
 </script>
