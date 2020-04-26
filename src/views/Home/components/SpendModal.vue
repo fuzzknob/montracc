@@ -2,15 +2,12 @@
   <Modal
     :visible="visible"
     class="text-primary"
-    title="Add Spent"
+    title="Spend Money"
     :loading="isSubmitting"
     @after-close="cleanup"
     @ok="handleSpendMoney"
     @close="$emit('close')"
   >
-    <div slot="header">
-      Add to Spent
-    </div>
     <Form>
       <FormItem label="Amount">
         <Input
