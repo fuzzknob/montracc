@@ -61,3 +61,9 @@ export async function transferMoney({
     amount: toStorage.amount + realTransferredAmount,
   })
 }
+
+export function editLimit(expenditureId, limit) {
+  return Expenditure.update(expenditureId, {
+    limit,
+  })
+}

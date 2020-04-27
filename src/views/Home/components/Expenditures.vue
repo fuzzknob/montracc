@@ -5,6 +5,11 @@
       :expenditure="targetExpenditure"
       @close="isSpendModalVisible = false"
     />
+    <EditLimit
+      :expenditure="targetExpenditure"
+      :visible="isEditLimitVisible"
+      @close="isEditLimitVisible = false"
+    />
     <h3 class="text-base text-primary my-1">
       Expenditures
     </h3>
@@ -25,6 +30,7 @@
             limit: expenditure.limit,
           }"
           @click="handleExpenditureClick(expenditure)"
+          @edit="handleEditLimit(expenditure)"
         />
       </Column>
     </Row>
@@ -35,16 +41,19 @@
 import { mapState } from 'vuex'
 import Expenditure from './Expenditure.vue'
 import SpentModal from './SpendModal.vue'
+import EditLimit from './EditLimit.vue'
 
 export default {
   name: 'Expenditures',
   components: {
     Expenditure,
     SpentModal,
+    EditLimit,
   },
   data() {
     return {
       isSpendModalVisible: false,
+      isEditLimitVisible: false,
       targetExpenditure: {},
     }
   },
@@ -53,8 +62,12 @@ export default {
   },
   methods: {
     handleExpenditureClick(expenditure) {
-      this.isSpendModalVisible = true
       this.targetExpenditure = expenditure
+      this.isSpendModalVisible = true
+    },
+    handleEditLimit(expendature) {
+      this.targetExpenditure = expendature
+      this.isEditLimitVisible = true
     },
   },
 }

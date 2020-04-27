@@ -4,6 +4,7 @@
     :min-height="81"
     icon
     @click="$emit('click')"
+    @icon-click="$emit('edit')"
   >
     <div class="text-primary flex flex-col text-xl">
       <span>

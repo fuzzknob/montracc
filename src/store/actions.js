@@ -20,4 +20,18 @@ export default {
     await Money.transferMoney(data)
     dispatch('fetchFromDatabase')
   },
+
+  async editLimit({ commit, state }, data) {
+    await Money.editLimit(data.id, data.limit)
+    const expenditures = state.expenditures.map((expenditure) => {
+      if (expenditure.id === data.id) {
+        return {
+          ...expenditure,
+          limit: data.limit,
+        }
+      }
+      return expenditure
+    })
+    commit('setExpenditures', expenditures)
+  },
 }
