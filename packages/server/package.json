@@ -1,0 +1,15 @@
+{
+  "name": "@montracc/server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon app.js",
+    "serve": "node app.js"
+  },
+  "dependencies": {
+    "fastify": "^2.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
