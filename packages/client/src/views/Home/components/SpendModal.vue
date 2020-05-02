@@ -98,6 +98,7 @@ export default {
     cleanup() {
       this.amount = 0
       this.selectedStorage = this.storages[0].id
+      this.description = ''
     },
   },
 }
