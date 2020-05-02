@@ -1,6 +1,7 @@
 import User from '@/models/User'
 import Storage from '@/models/Storage'
 import Expenditure from '@/models/Expenditure'
+import Action from '@/models/Action'
 
 export async function getInitialData() {
   const user = await User.get()
@@ -25,15 +26,36 @@ export async function spendMoney({ amount, storageId, expenditureId }) {
   await Storage.update(storageId, {
     amount: storage.amount - amount,
   })
+  Action.add({
+    action: 'updateStorageAmount',
+    payload: {
+      storageId,
+      amount: storage.amount - amount,
+    },
+  })
   await Expenditure.update(expenditureId, {
     spent: expenditure.spent + amount,
+  })
+  Action.add({
+    action: 'updateExpenditureSpent',
+    payload: {
+      expenditureId,
+      amount: expenditure.spent + amount,
+    },
   })
   const totalAmount = user.totalAmount - amount
   const totalSpent = user.totalSpent + amount
 
-  return User.update({
+  await User.update({
     totalAmount,
     totalSpent,
+  })
+  Action.add({
+    action: 'updateAggregateAmount',
+    payload: {
+      totalAmount,
+      totalSpent,
+    },
   })
 }
 
@@ -49,21 +71,49 @@ export async function transferMoney({
     await Storage.update(from, {
       amount: fromStorage.amount - amount,
     })
+    Action.add({
+      action: 'updateStorageAmount',
+      payload: {
+        storageId: from,
+        amount: fromStorage.amount - amount,
+      },
+    })
   } else {
     const user = await User.get()
     await User.update({
       totalAmount: user.totalAmount + realTransferredAmount,
       totalSpent: user.totalSpent + transferCharge,
     })
+    Action.add({
+      action: 'updateAggregateAmount',
+      payload: {
+        totalAmount: user.totalAmount + realTransferredAmount,
+        totalSpent: user.totalSpent + transferCharge,
+      },
+    })
   }
   const toStorage = await Storage.get(to)
-  return Storage.update(to, {
+  Storage.update(to, {
     amount: toStorage.amount + realTransferredAmount,
+  })
+  Action.add({
+    action: 'updateStorageAmount',
+    payload: {
+      storageId: from,
+      amount: toStorage.amount + realTransferredAmount,
+    },
   })
 }
 
 export function editLimit(expenditureId, limit) {
-  return Expenditure.update(expenditureId, {
+  Expenditure.update(expenditureId, {
     limit,
+  })
+  Action.add({
+    action: 'updateExpenditureLimit',
+    payload: {
+      expenditureId,
+      limit,
+    },
   })
 }
