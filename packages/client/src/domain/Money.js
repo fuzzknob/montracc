@@ -2,6 +2,7 @@ import User from '@/models/User'
 import Storage from '@/models/Storage'
 import Expenditure from '@/models/Expenditure'
 import Action from '@/models/Action'
+import { formatCurrency } from '@/utils/formatters'
 
 export async function getInitialData() {
   const user = await User.get()
@@ -15,37 +16,20 @@ export async function getInitialData() {
   }
 }
 
-export async function spendMoney({ amount, storageId, expenditureId }) {
-  const storage = await Storage.get(storageId)
-  const expenditure = await Expenditure.get(expenditureId)
-  const user = await User.get()
-
-  if (storage.amount < amount) {
-    throw new Error(`You don't have enough money in ${storage.name}`)
-  }
+async function updateStorageAmount(storageId, amount) {
   await Storage.update(storageId, {
-    amount: storage.amount - amount,
+    amount,
   })
   Action.add({
     action: 'updateStorageAmount',
     payload: {
       storageId,
-      amount: storage.amount - amount,
+      amount,
     },
   })
-  await Expenditure.update(expenditureId, {
-    spent: expenditure.spent + amount,
-  })
-  Action.add({
-    action: 'updateExpenditureSpent',
-    payload: {
-      expenditureId,
-      amount: expenditure.spent + amount,
-    },
-  })
-  const totalAmount = user.totalAmount - amount
-  const totalSpent = user.totalSpent + amount
+}
 
+async function updateAggregateAmount(totalAmount, totalSpent) {
   await User.update({
     totalAmount,
     totalSpent,
@@ -59,49 +43,92 @@ export async function spendMoney({ amount, storageId, expenditureId }) {
   })
 }
 
-export async function transferMoney({
-  amount, from, to, transferCharge,
+async function updateExpenditureSpent(expenditureId, amount) {
+  await Expenditure.update(expenditureId, {
+    spent: amount,
+  })
+  Action.add({
+    action: 'updateExpenditureSpent',
+    payload: {
+      expenditureId,
+      amount,
+    },
+  })
+}
+
+function addTransaction(data) {
+  console.log(data.description)
+  Action.add({
+    action: 'addTransaction',
+    payload: data,
+  })
+}
+
+export async function spendMoney({
+  amount, storageId, expenditureId, description,
 }) {
-  const realTransferredAmount = amount - transferCharge
-  if (from !== 'external') {
-    const fromStorage = await Storage.get(from)
-    if (fromStorage.amount < amount) {
+  const storage = await Storage.get(storageId)
+  const expenditure = await Expenditure.get(expenditureId)
+  const user = await User.get()
+
+  if (storage.amount < amount) {
+    throw new Error(`You don't have enough money in ${storage.name}`)
+  }
+  await updateStorageAmount(storageId, storage.amount - amount)
+  await updateExpenditureSpent(expenditureId, expenditure.spent + amount)
+  const totalAmount = user.totalAmount - amount
+  const totalSpent = user.totalSpent + amount
+  await updateAggregateAmount(totalAmount, totalSpent)
+  addTransaction({
+    type: 'OUTGOING',
+    amount,
+    description: description || `Spend ${formatCurrency(amount)} on ${expenditure.name}`,
+    from: storage.name,
+    to: expenditure.name,
+  })
+}
+
+export async function transferMoney({
+  amount, from, to, transferCharge, description,
+}) {
+  const fromStorage = from === 'external' ? null : await Storage.get(from)
+  const toStorage = await Storage.get(to)
+  if (fromStorage) {
+    const totalOutgoing = amount + transferCharge
+    if (fromStorage.amount < totalOutgoing) {
       throw new Error(`You don't have enough money in ${fromStorage.name} to transfer.`)
     }
-    await Storage.update(from, {
-      amount: fromStorage.amount - amount,
-    })
-    Action.add({
-      action: 'updateStorageAmount',
-      payload: {
-        storageId: from,
-        amount: fromStorage.amount - amount,
-      },
+    await updateStorageAmount(from, fromStorage.amount - totalOutgoing)
+    addTransaction({
+      type: 'OUTGOING',
+      amount,
+      description: `${formatCurrency(amount)} was transferred to ${toStorage.name} from ${fromStorage.name}.`,
+      from: fromStorage.name,
+      to: toStorage.name,
     })
   } else {
     const user = await User.get()
-    await User.update({
-      totalAmount: user.totalAmount + realTransferredAmount,
-      totalSpent: user.totalSpent + transferCharge,
-    })
-    Action.add({
-      action: 'updateAggregateAmount',
-      payload: {
-        totalAmount: user.totalAmount + realTransferredAmount,
-        totalSpent: user.totalSpent + transferCharge,
-      },
+    await updateAggregateAmount(user.totalAmount + amount, user.totalSpent)
+  }
+  if (transferCharge) {
+    const user = await User.get()
+    await updateAggregateAmount(user.totalAmount, user.totalSpent + transferCharge)
+    addTransaction({
+      type: 'OUTGOING',
+      amount: transferCharge,
+      description: `${formatCurrency(transferCharge)} was changed while transferring money to ${toStorage.name} from ${fromStorage.name}.`,
+      from: fromStorage.name,
+      to: 'External',
     })
   }
-  const toStorage = await Storage.get(to)
-  Storage.update(to, {
-    amount: toStorage.amount + realTransferredAmount,
-  })
-  Action.add({
-    action: 'updateStorageAmount',
-    payload: {
-      storageId: from,
-      amount: toStorage.amount + realTransferredAmount,
-    },
+  await updateStorageAmount(to, toStorage.amount + amount)
+  addTransaction({
+    type: 'INCOMING',
+    amount,
+    description: description
+    || `${formatCurrency(amount)} was transferred from ${fromStorage ? fromStorage.name : 'external source'} to ${toStorage.name}.`,
+    from: fromStorage ? fromStorage.name : 'External',
+    to: toStorage.name,
   })
 }
 
