@@ -36,6 +36,9 @@
           :disabled="selectedStorage === 'external'"
         />
       </FormItem>
+      <FormItem label="Description">
+        <Textarea v-model="description" />
+      </FormItem>
     </Form>
   </Modal>
 </template>
@@ -43,6 +46,7 @@
 <script>
 import Modal from '@/components/Modal.vue'
 import Input from '@/components/Input.vue'
+import Textarea from '@/components/Textarea.vue'
 import { Form, Select } from 'ant-design-vue'
 import { mapState, mapActions } from 'vuex'
 
@@ -52,6 +56,7 @@ export default {
     Modal,
     Form,
     Input,
+    Textarea,
     FormItem: Form.Item,
     Select,
     Option: Select.Option,
@@ -72,6 +77,7 @@ export default {
       selectedStorage: 'external',
       amount: 0,
       transferCharge: 0,
+      description: '',
     }
   },
   computed: {
@@ -83,6 +89,7 @@ export default {
       this.selectedStorage = 'external'
       this.amount = 0
       this.transferCharge = 0
+      this.description = ''
     },
     handleTransferMoney() {
       this.isTransfering = true
@@ -90,6 +97,7 @@ export default {
         amount: this.amount,
         from: this.selectedStorage,
         to: this.storage.id,
+        description: this.description,
         transferCharge: this.transferCharge,
       }).then(() => {
         this.$emit('close')
