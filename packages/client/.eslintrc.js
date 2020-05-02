@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   env: {
     node: true,
   },
@@ -15,6 +14,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': 'off',
     'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
     semi: ['error', 'never'],
   },
 }
