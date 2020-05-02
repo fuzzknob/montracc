@@ -1,9 +1,7 @@
 <template>
   <label class="flex flex-col">
-    <span>
-      {{ label }}
-    </span>
     <input
+      ref="input-text"
       class="text-primary input-txt"
       :type="type"
       :value="value"
@@ -17,10 +15,6 @@
 export default {
   name: 'Input',
   props: {
-    label: {
-      type: String,
-      default: '',
-    },
     type: {
       type: String,
       default: 'text',
@@ -33,6 +27,16 @@ export default {
       type: Boolean,
       default: null,
     },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  mounted() {
+    if (this.autofocus) {
+      this.$refs['input-text'].focus()
+      this.$refs['input-text'].select()
+    }
   },
   methods: {
     handleInput({ target }) {
