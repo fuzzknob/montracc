@@ -57,7 +57,6 @@ async function updateExpenditureSpent(expenditureId, amount) {
 }
 
 function addTransaction(data) {
-  console.log(data.description)
   Action.add({
     action: 'addTransaction',
     payload: data,
