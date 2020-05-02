@@ -21,7 +21,7 @@
             External
           </Option>
           <Option
-            v-for="_storage in storages"
+            v-for="_storage in filteredStorages"
             :key="_storage.id"
             :value="_storage.id"
           >
@@ -82,6 +82,12 @@ export default {
   },
   computed: {
     ...mapState(['storages']),
+    filteredStorages() {
+      if (!this.storage) {
+        return []
+      }
+      return this.storages.filter((storage) => storage.id !== this.storage.id)
+    },
   },
   methods: {
     ...mapActions(['transferMoney']),
