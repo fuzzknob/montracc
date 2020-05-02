@@ -8,10 +8,11 @@
     @ok="handleSpendMoney"
     @close="$emit('close')"
   >
-    <Form>
+    <Form v-if="visible">
       <FormItem label="Amount">
         <Input
           v-model="amount"
+          autofocus
           type="number"
         />
       </FormItem>
@@ -26,6 +27,9 @@
           </Option>
         </Select>
       </FormItem>
+      <FormItem label="Description">
+        <Textarea v-model="description" />
+      </FormItem>
     </Form>
   </Modal>
 </template>
@@ -33,6 +37,7 @@
 <script>
 import Modal from '@/components/Modal.vue'
 import Input from '@/components/Input.vue'
+import Textarea from '@/components/Textarea.vue'
 import { mapState, mapActions } from 'vuex'
 import { Form, Select } from 'ant-design-vue'
 
@@ -42,6 +47,7 @@ export default {
     Modal,
     Form,
     Input,
+    Textarea,
     FormItem: Form.Item,
     Select,
     Option: Select.Option,
@@ -61,6 +67,7 @@ export default {
       amount: 0,
       selectedStorage: '',
       isSubmitting: false,
+      description: '',
     }
   },
   computed: {
@@ -79,6 +86,7 @@ export default {
         amount: this.amount,
         storageId: this.selectedStorage,
         expenditureId: this.expenditure.id,
+        description: this.description,
       }).then(() => {
         this.$emit('close')
       }).catch((e) => {
