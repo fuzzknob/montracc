@@ -1,3 +1,4 @@
+import './libs/env'
 import fastify from 'fastify'
 import routes from './routes'
 
