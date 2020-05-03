@@ -1,8 +1,9 @@
-const fastify = require('fastify')
+import fastify from 'fastify'
+import routes from './routes'
 
 const server = fastify()
 
-server.register(require('./routes'))
+server.register(routes)
 
 const PORT = process.env.PORT || 8000
 

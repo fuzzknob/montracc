@@ -1,7 +1,7 @@
-const HomeController = require('./controller/Home')
+import * as HomeController from './controller/Home'
 
 async function routes(server) {
   server.get('/', HomeController.home)
 }
 
-module.exports = routes
+export default routes

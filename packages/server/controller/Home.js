@@ -1,3 +1,3 @@
-exports.home = (req, res) => {
+export function home(req, res) {
   res.send('Montracc')
 }
