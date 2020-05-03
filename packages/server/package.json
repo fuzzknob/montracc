@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "babel-node app/app.js",
+    "dev": "nodemon app/app.js",
     "build": "babel ./app -d dist --delete-dir-on-start --verbose"
   },
   "dependencies": {
