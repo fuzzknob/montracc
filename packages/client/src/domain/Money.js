@@ -43,15 +43,15 @@ async function updateAggregateAmount(totalAmount, totalSpent) {
   })
 }
 
-async function updateExpenditureSpent(expenditureId, amount) {
+async function updateExpenditureSpent(expenditureId, spent) {
   await Expenditure.update(expenditureId, {
-    spent: amount,
+    spent,
   })
   Action.add({
     action: 'updateExpenditureSpent',
     payload: {
       expenditureId,
-      amount,
+      spent,
     },
   })
 }
