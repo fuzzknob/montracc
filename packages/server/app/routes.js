@@ -1,7 +1,10 @@
 import * as HomeController from './controller/Home'
+import * as SyncController from './controller/Sync'
+import { Router } from 'express'
 
-async function routes(server) {
-  server.get('/', HomeController.home)
-}
+const router = Router()
 
-export default routes
+router.get('/', HomeController.home)
+router.post('/sync', SyncController.sync)
+
+export default router

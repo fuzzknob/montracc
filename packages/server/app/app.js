@@ -1,13 +1,22 @@
 import './libs/env'
-import fastify from 'fastify'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import express from 'express'
 import routes from './routes'
 
-const server = fastify()
+const server = express()
 
-server.register(routes)
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(
+  cors({
+    origin: true,
+  }),
+)
+server.use(routes)
 
 const PORT = process.env.PORT || 8000
 
-server.listen(PORT, '0.0.0.0').then(() => {
+server.listen(PORT, () => {
   console.log(`Started server in http://localhost:${PORT}`)
 })
