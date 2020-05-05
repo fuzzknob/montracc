@@ -20,11 +20,14 @@ function formatData(document) {
   }
 }
 
-export function getDocuments(collectionName, where, orderBy) {
+export function getDocuments(collectionName, wheres, orderBy) {
   let collectionRef = db.collection(collectionName)
-  if (where && where.length) {
-    const [fieldPath, operator, value] = where
-    collectionRef = collectionRef.where(fieldPath, operator, value)
+  if (wheres && wheres.length) {
+    wheres = typeof wheres[0] === 'string' ? [wheres] : wheres
+    wheres.forEach((where) => {
+      const [fieldPath, operator, value] = where
+      collectionRef = collectionRef.where(fieldPath, operator, value)
+    })
   }
   if (orderBy) {
     collectionRef = collectionRef.orderBy(orderBy)
