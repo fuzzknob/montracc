@@ -25,5 +25,6 @@ export async function sync(req, res) {
     }
   }
   await Promise.all(actionResponse)
-  res.send('action synced')
+  const data = await money.getAllData()
+  res.send(data)
 }

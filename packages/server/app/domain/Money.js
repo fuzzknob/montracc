@@ -48,4 +48,25 @@ export default class Money {
     const entity = await model.where([['userId', '==', this.userId], ['localDBId', '==', localDBId]])
     return entity[0]
   }
+
+  async getAllData() {
+    const user = await User.get(this.userId)
+    const storages = await Storage.where(['userId', '==', this.userId])
+    const expenditures = await Expenditure.where(['userId', '==', this.userId])
+    return {
+      totalAmount: user.totalAmount,
+      totalSpent: user.totalSpent,
+      storages: storages.map((storage) => ({
+        id: storage.localDBId,
+        name: storage.name,
+        amount: storage.amount,
+      })),
+      expenditures: expenditures.map((expenditure) => ({
+        id: expenditure.localDBId,
+        name: expenditure.name,
+        limit: expenditure.limit,
+        spent: expenditure.spent,
+      })),
+    }
+  }
 }
