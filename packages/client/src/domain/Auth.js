@@ -2,7 +2,7 @@ import {
   login as loginFirebase,
   logout as logoutFirebase,
   onAuthStateChanged,
-} from '~/services/firebase'
+} from '@/services/firebase'
 
 export class Auth {
   firebaseAuthUser = null
