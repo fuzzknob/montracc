@@ -1,5 +1,5 @@
 <template>
-  <label class="flex flex-col">
+  <div class="flex flex-col">
     <input
       ref="input-text"
       class="text-primary input-txt"
@@ -8,7 +8,7 @@
       :disabled="disabled"
       @input="handleInput"
     >
-  </label>
+  </div>
 </template>
 
 <script>
@@ -48,6 +48,10 @@ export default {
 
 <style lang="sass">
 .input-txt
+  border: 1px solid white
+  height: 35px
+  border-radius: 3px
+  padding: 0 7px 0 7px
   background: #2D2D2D !important
   border-color: #545454 !important
 
