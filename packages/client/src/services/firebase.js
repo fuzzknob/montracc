@@ -4,7 +4,6 @@ import { getEnvValue } from '@/utils'
 const firebaseConfig = {
   apiKey: getEnvValue('VUE_APP_API_KEY'),
   authDomain: getEnvValue('VUE_APP_AUTH_DOMAIN'),
-  databaseURL: getEnvValue('VUE_APP_MESSAGING_SENDER_ID'),
   projectId: getEnvValue('VUE_APP_PROJECT_ID'),
   appId: getEnvValue('VUE_APP_APP_ID'),
 }
