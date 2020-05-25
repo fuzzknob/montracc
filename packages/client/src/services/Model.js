@@ -27,6 +27,14 @@ export default class Model {
     return this.table.bulkAdd(items)
   }
 
+  bulkPut(items) {
+    return this.table.bulkPut(items)
+  }
+
+  bulkDelete(keys) {
+    return this.table.bulkDelete(keys)
+  }
+
   get(id) {
     return this.table.get(id)
   }
