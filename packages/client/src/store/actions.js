@@ -1,10 +1,16 @@
 import * as Money from '@/domain/Money'
+import Auth from '@/domain/Auth'
+import { getUserProfile } from '@/domain/User'
 
 export default {
   async fetchFromDatabase({ commit }) {
+    const data = await Money.getInitialData()
+    if (!data) {
+      return
+    }
     const {
       totalAmount, totalSpent, storages, expenditures,
-    } = await Money.getInitialData()
+    } = data
     commit('setTotalAmount', totalAmount)
     commit('setTotalSpent', totalSpent)
     commit('setStorages', storages)
@@ -33,5 +39,12 @@ export default {
       return expenditure
     })
     commit('setExpenditures', expenditures)
+  },
+
+  async login({ dispatch }, data) {
+    await Auth.login(data)
+    await getUserProfile()
+    await Money.sync()
+    return dispatch('fetchFromDatabase')
   },
 }

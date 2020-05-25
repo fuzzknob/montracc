@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <Button @click="logout">
+      <Button
+        ghost
+        @click="logout"
+      >
         Logout
       </Button>
     </div>

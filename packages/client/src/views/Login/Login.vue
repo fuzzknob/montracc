@@ -1,15 +1,22 @@
 <template>
   <div class="h-screen flex flex-center">
     <div class="form-wrapper mb-32">
-      <Form>
+      <Form @submit="handleLogin">
         <FormItem label="Email">
-          <Input />
+          <Input v-model="user.email" />
         </FormItem>
         <FormItem label="Password">
-          <Input type="password" />
+          <Input
+            v-model="user.password"
+            type="password"
+          />
         </FormItem>
         <div class="mt-4">
-          <Button type="submit">
+          <Button
+            :loading="isLoggingIn"
+            type="submit"
+            @click="handleLogin"
+          >
             Login
           </Button>
         </div>
@@ -20,7 +27,9 @@
 
 <script>
 import Input from '@/components/Input'
-import { Form, Button } from 'ant-design-vue'
+import { Form, Button, notification } from 'ant-design-vue'
+import { mapActions } from 'vuex'
+
 
 export default {
   name: 'Login',
@@ -29,6 +38,35 @@ export default {
     Button,
     Form,
     FormItem: Form.Item,
+  },
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
+      },
+      isLoggingIn: false,
+    }
+  },
+  methods: {
+    ...mapActions(['login']),
+    async handleLogin() {
+      this.isLoggingIn = true
+      const { user } = this
+      try {
+        if (!user.email || !user.password) {
+          throw new Error('Email and password cannot be empty')
+        }
+        await this.login(user)
+        this.$router.replace('/')
+      } catch (e) {
+        notification.error({
+          message: e.message || e,
+        })
+      } finally {
+        this.isLoggingIn = false
+      }
+    },
   },
 }
 </script>

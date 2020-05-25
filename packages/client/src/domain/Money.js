@@ -1,3 +1,4 @@
+import request from '@/services/request'
 import User from '@/models/User'
 import Storage from '@/models/Storage'
 import Expenditure from '@/models/Expenditure'
@@ -6,6 +7,9 @@ import { formatCurrency } from '@/utils/formatters'
 
 export async function getInitialData() {
   const user = await User.get()
+  if (!user) {
+    return null
+  }
   const storages = await Storage.getAll()
   const expenditures = await Expenditure.getAll()
   return {
@@ -142,4 +146,42 @@ export function editLimit(expenditureId, limit) {
       limit,
     },
   })
+}
+
+function updateLocalDB(data) {
+  const promises = []
+  promises.push(
+    User.put({
+      totalAmount: data.totalAmount,
+      totalSpent: data.totalSpent,
+    }),
+  )
+  promises.push(
+    Storage.bulkPut(data.storages),
+  )
+  promises.push(
+    Expenditure.bulkPut(data.expenditures),
+  )
+  return Promise.all(promises)
+}
+
+async function deleteActions(actions) {
+  return Action.bulkDelete(actions.map((action) => action.id))
+}
+
+export async function sync() {
+  const actions = await Action.getAll()
+  try {
+    const data = await request({
+      url: '/sync',
+      method: 'POST',
+      data: actions,
+    })
+    await updateLocalDB(data)
+    if (actions) {
+      await deleteActions(actions)
+    }
+  } catch (e) {
+    throw new Error('There was error ref: SYNC FUNCTION')
+  }
 }
