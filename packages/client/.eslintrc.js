@@ -17,6 +17,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'class-methods-use-this': 'off',
+    'import/no-named-as-default': 'off',
     semi: ['error', 'never'],
   },
 }
