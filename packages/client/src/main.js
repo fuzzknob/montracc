@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Filters from '@/filters'
 import Ant from '@/plugins/Ant'
-import 'heyui/themes/index.less'
 import '@/styles/main.sass'
 import App from './App.vue'
 import './registerServiceWorker'
