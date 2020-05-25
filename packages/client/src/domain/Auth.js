@@ -7,7 +7,7 @@ import {
 export class Auth {
   firebaseAuthUser = null
 
-  initializeAuth() {
+  initialize() {
     let hasResolvePromise = false
     return new Promise((resolve) => {
       onAuthStateChanged((user) => {
