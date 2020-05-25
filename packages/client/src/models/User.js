@@ -10,18 +10,18 @@ class User extends Model {
   }
 
   put(data) {
-    super.put({
+    return super.put({
       id: 1,
       ...data,
     })
   }
 
   update(data) {
-    super.update(1, data)
+    return super.update(1, data)
   }
 
   delete() {
-    super.delete(1)
+    return super.delete(1)
   }
 }
 
