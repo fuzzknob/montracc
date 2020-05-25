@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Filters from '@/filters'
 import Ant from '@/plugins/Ant'
+import Auth from '@/domain/Auth'
 import '@/styles/main.sass'
 import App from './App.vue'
 import './registerServiceWorker'
@@ -11,8 +12,10 @@ Vue.config.productionTip = false
 Vue.use(Ant)
 Vue.use(Filters)
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app')
+Auth.initialize().then(() => {
+  new Vue({
+    router,
+    store,
+    render: (h) => h(App),
+  }).$mount('#app')
+})
