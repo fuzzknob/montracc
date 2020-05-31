@@ -185,3 +185,10 @@ export async function sync() {
     throw new Error('There was error ref: SYNC FUNCTION')
   }
 }
+
+export async function cleanDB() {
+  await User.delete()
+  await Action.deleteAll()
+  await Storage.deleteAll()
+  await Expenditure.deleteAll()
+}

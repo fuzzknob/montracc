@@ -6,6 +6,6 @@ export async function getUserProfile() {
     method: 'GET',
     url: 'user/profile',
   })
-  await User.put(profile)
+  await User.put({ ...profile, id: 1 })
   return profile
 }

@@ -47,4 +47,9 @@ export default {
     await Money.sync()
     return dispatch('fetchFromDatabase')
   },
+
+  async logout() {
+    await Money.cleanDB()
+    return Auth.logout()
+  },
 }

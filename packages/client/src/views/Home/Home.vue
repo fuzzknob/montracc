@@ -15,7 +15,7 @@
 
 <script>
 import { Button } from 'ant-design-vue'
-import Auth from '@/domain/Auth'
+import { mapActions } from 'vuex'
 import Stats from './components/Stats.vue'
 import Expenditures from './components/Expenditures.vue'
 
@@ -27,9 +27,9 @@ export default {
     Expenditures,
   },
   methods: {
-    logout() {
-      Auth.logout()
-    },
+    ...mapActions([
+      'logout',
+    ]),
   },
 }
 </script>
