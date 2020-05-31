@@ -2,8 +2,8 @@ import Money from '../domain/Money'
 
 export async function sync(req, res) {
   const {actions} = req.body
-  const { userId } = req
-  const money = new Money(userId)
+  const { user } = req
+  const money = new Money(user)
   if (actions) {
     const actionResponse = []
     for (const action of actions) {

@@ -4,8 +4,8 @@ import Expenditure from '../models/Expenditure'
 import Transaction from '../models/Transaction'
 
 export default class Money {
-  constructor(userId) {
-    this.userId = userId
+  constructor(user) {
+    this.user = user
   }
 
   addTransaction(data) {
@@ -15,7 +15,7 @@ export default class Money {
     transaction.description = data.description
     transaction.from = data.from
     transaction.to = data.to
-    transaction.userId = this.userId
+    transaction.userId = this.user.id
     return transaction.save()
   }
 
@@ -26,10 +26,9 @@ export default class Money {
   }
 
   async updateAggregateAmount(data) {
-    const user = await User.get(this.userId)
-    user.totalAmount = data.totalAmount
-    user.totalSpent = data.totalSpent
-    return user.update()
+    this.user.totalAmount = data.totalAmount
+    this.user.totalSpent = data.totalSpent
+    return this.user.update()
   }
 
   async updateExpenditureSpent(data) {
@@ -45,17 +44,16 @@ export default class Money {
   }
 
   async getDataWithLocalDbId(model, localDBId) {
-    const entity = await model.where([['userId', '==', this.userId], ['localDBId', '==', localDBId]])
+    const entity = await model.where([['userId', '==', this.user.id], ['localDBId', '==', localDBId]])
     return entity[0]
   }
 
   async getAllData() {
-    const user = await User.get(this.userId)
-    const storages = await Storage.where(['userId', '==', this.userId])
-    const expenditures = await Expenditure.where(['userId', '==', this.userId])
+    const storages = await Storage.where(['userId', '==', this.user.id])
+    const expenditures = await Expenditure.where(['userId', '==', this.user.id])
     return {
-      totalAmount: user.totalAmount,
-      totalSpent: user.totalSpent,
+      totalAmount: this.user.totalAmount,
+      totalSpent: this.user.totalSpent,
       storages: storages.map((storage) => ({
         id: storage.localDBId,
         name: storage.name,

@@ -1,8 +1,7 @@
 import User from '../models/User'
 
-export async function getProfile(req, res) {
-  const { userId } = req
-  const user = await User.get(userId)
+export function getProfile(req, res) {
+  const { user } = req
   res.send({
     firstName: user.firstName,
     lastName: user.lastName,
