@@ -139,7 +139,7 @@ export function editLimit(expenditureId, limit) {
   Expenditure.update(expenditureId, {
     limit,
   })
-  Action.add({
+  return Action.add({
     action: 'updateExpenditureLimit',
     payload: {
       expenditureId,
