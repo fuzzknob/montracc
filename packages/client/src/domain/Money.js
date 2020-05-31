@@ -175,7 +175,7 @@ export async function sync() {
     const data = await request({
       url: '/sync',
       method: 'POST',
-      data: actions,
+      data: { actions },
     })
     await updateLocalDB(data)
     if (actions) {

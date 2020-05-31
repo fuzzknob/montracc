@@ -52,4 +52,9 @@ export default {
     await Money.cleanDB()
     return Auth.logout()
   },
+
+  async sync({ dispatch }) {
+    await Money.sync()
+    return dispatch('fetchFromDatabase')
+  },
 }
