@@ -68,18 +68,18 @@ export default {
     }
   },
   computed: {
-    ...mapState(['storages']),
+    ...mapState(['storages', 'expenditures']),
     totalAmount() {
       if (!this.storages.length) {
         return 0
       }
-      return this.storages.reducer((accum, storage) => accum + storage.amount, 0)
+      return this.storages.reduce((accum, storage) => accum + storage.amount, 0)
     },
     totalSpent() {
       if (!this.expenditures.length) {
         return 0
       }
-      return this.expenditures.reducer((accum, expenditure) => accum + expenditure.spent, 0)
+      return this.expenditures.reduce((accum, expenditure) => accum + expenditure.spent, 0)
     },
   },
   methods: {
