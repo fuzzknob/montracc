@@ -6,7 +6,5 @@ export function getProfile(req, res) {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    totalAmount: user.totalAmount,
-    totalSpent: user.totalSpent,
   })
 }

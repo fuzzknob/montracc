@@ -25,12 +25,6 @@ export default class Money {
     return storage.update()
   }
 
-  async updateAggregateAmount(data) {
-    this.user.totalAmount = data.totalAmount
-    this.user.totalSpent = data.totalSpent
-    return this.user.update()
-  }
-
   async updateExpenditureSpent(data) {
     const expenditure = await this.getDataWithLocalDbId(Expenditure, data.expenditureId)
     expenditure.spent = data.spent
@@ -52,8 +46,6 @@ export default class Money {
     const storages = await Storage.where(['userId', '==', this.user.id])
     const expenditures = await Expenditure.where(['userId', '==', this.user.id])
     return {
-      totalAmount: this.user.totalAmount,
-      totalSpent: this.user.totalSpent,
       storages: storages.map((storage) => ({
         id: storage.localDBId,
         name: storage.name,

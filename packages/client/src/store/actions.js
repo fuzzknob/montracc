@@ -9,10 +9,8 @@ export default {
       return
     }
     const {
-      totalAmount, totalSpent, storages, expenditures,
+      storages, expenditures,
     } = data
-    commit('setTotalAmount', totalAmount)
-    commit('setTotalSpent', totalSpent)
     commit('setStorages', storages)
     commit('setExpenditures', expenditures)
   },

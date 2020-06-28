@@ -68,7 +68,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['totalAmount', 'totalSpent', 'storages']),
+    ...mapState(['storages']),
+    totalAmount() {
+      if (!this.storages.length) {
+        return 0
+      }
+      return this.storages.reducer((accum, storage) => accum + storage.amount, 0)
+    },
+    totalSpent() {
+      if (!this.expenditures.length) {
+        return 0
+      }
+      return this.expenditures.reducer((accum, expenditure) => accum + expenditure.spent, 0)
+    },
   },
   methods: {
     handleStorageClick(storage) {

@@ -14,9 +14,6 @@ export async function sync(req, res) {
         case 'updateStorageAmount':
           actionResponse.push(money.updateStorageAmount(action.payload))
           break
-        case 'updateAggregateAmount':
-          actionResponse.push(money.updateAggregateAmount(action.payload))
-          break
         case 'updateExpenditureSpent':
           actionResponse.push(money.updateExpenditureSpent(action.payload))
           break

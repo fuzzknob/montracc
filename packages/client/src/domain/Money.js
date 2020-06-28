@@ -13,8 +13,6 @@ export async function getInitialData() {
   const storages = await Storage.getAll()
   const expenditures = await Expenditure.getAll()
   return {
-    totalAmount: user.totalAmount,
-    totalSpent: user.totalSpent,
     storages,
     expenditures,
   }
@@ -29,20 +27,6 @@ async function updateStorageAmount(storageId, amount) {
     payload: {
       storageId,
       amount,
-    },
-  })
-}
-
-async function updateAggregateAmount(totalAmount, totalSpent) {
-  await User.update({
-    totalAmount,
-    totalSpent,
-  })
-  Action.add({
-    action: 'updateAggregateAmount',
-    payload: {
-      totalAmount,
-      totalSpent,
     },
   })
 }
@@ -72,16 +56,12 @@ export async function spendMoney({
 }) {
   const storage = await Storage.get(storageId)
   const expenditure = await Expenditure.get(expenditureId)
-  const user = await User.get()
 
   if (storage.amount < amount) {
     throw new Error(`You don't have enough money in ${storage.name}`)
   }
   await updateStorageAmount(storageId, storage.amount - amount)
   await updateExpenditureSpent(expenditureId, expenditure.spent + amount)
-  const totalAmount = user.totalAmount - amount
-  const totalSpent = user.totalSpent + amount
-  await updateAggregateAmount(totalAmount, totalSpent)
   addTransaction({
     type: 'OUTGOING',
     amount,
@@ -109,13 +89,8 @@ export async function transferMoney({
       from: fromStorage.name,
       to: toStorage.name,
     })
-  } else {
-    const user = await User.get()
-    await updateAggregateAmount(user.totalAmount + amount, user.totalSpent)
   }
   if (transferCharge) {
-    const user = await User.get()
-    await updateAggregateAmount(user.totalAmount, user.totalSpent + transferCharge)
     addTransaction({
       type: 'OUTGOING',
       amount: transferCharge,
@@ -150,12 +125,6 @@ export function editLimit(expenditureId, limit) {
 
 function updateLocalDB(data) {
   const promises = []
-  promises.push(
-    User.put({
-      totalAmount: data.totalAmount,
-      totalSpent: data.totalSpent,
-    }),
-  )
   promises.push(
     Storage.bulkPut(data.storages),
   )
