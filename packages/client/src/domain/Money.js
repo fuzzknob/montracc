@@ -22,6 +22,18 @@ async function updateStorageAmount(storageId, amount) {
   await Storage.update(storageId, {
     amount,
   })
+  const actionCollection = await Action.where({ action: 'updateStorageAmount' })
+  const actions = await actionCollection.toArray()
+  const targetAction = actions.filter((action) => action.payload.storageId === storageId)[0]
+  if (targetAction) {
+    Action.update(targetAction.id, {
+      payload: {
+        storageId,
+        amount,
+      },
+    })
+    return
+  }
   Action.add({
     action: 'updateStorageAmount',
     payload: {
@@ -35,6 +47,18 @@ async function updateExpenditureSpent(expenditureId, spent) {
   await Expenditure.update(expenditureId, {
     spent,
   })
+  const expenditureCollection = await Action.where({ action: 'updateExpenditureSpent' })
+  const expenditures = await expenditureCollection.toArray()
+  const targetExpenditure = expenditures.filter((expenditure) => expenditure.payload.expenditureId === expenditureId)[0]
+  if (targetExpenditure) {
+    Action.update(targetExpenditure.id, {
+      payload: {
+        expenditureId,
+        spent,
+      },
+    })
+    return
+  }
   Action.add({
     action: 'updateExpenditureSpent',
     payload: {

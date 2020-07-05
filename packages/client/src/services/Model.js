@@ -63,4 +63,8 @@ export default class Model {
     const keys = (await this.getAll()).map((item) => item.id)
     return this.table.bulkDelete(keys)
   }
+
+  async where(query) {
+    return this.table.where(query)
+  }
 }
